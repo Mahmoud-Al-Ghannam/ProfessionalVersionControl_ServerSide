@@ -1,29 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using PVC_Server.Application.Interfaces;
 using PVC_Server.Application.Options;
 
 namespace PVC_Server.Controllers {
 
+	public class SendEmailDTO {
+		public string To { get; set; }
+		public string Subject { get; set; }
+		public string Body { get; set; }
+		public bool IsHtml { get; set; }
+	}
+
 	[ApiController]
 	[Route("/api/test")]
 	public class TestController : ControllerBase {
-		
-		private readonly JwtOption _jwtOption;
-		private readonly EmailOptions _emailOption;
 
-		public TestController(IOptions<JwtOption> jwtOption, IOptions<EmailOptions> emailOption) {
-			_jwtOption = jwtOption.Value;
-			_emailOption = emailOption.Value;
+		private readonly IEmailService _emailService;
+
+		public TestController(IEmailService emailService) {
+			_emailService = emailService;
 		}
 
-		[HttpGet("jwt")]
-		public IActionResult GetJwt () {
-			return Ok(_jwtOption);
-		}
-
-		[HttpGet("email")]
-		public IActionResult GetEmail() {
-			return Ok(_emailOption);
+		[HttpPost("send-mail")]
+		public async Task<IActionResult> SendEmail(SendEmailDTO dto) {
+			await _emailService.SendAsync(dto.To, dto.Subject, dto.Body, dto.IsHtml);
+			return Ok();
 		}
 	}
 }

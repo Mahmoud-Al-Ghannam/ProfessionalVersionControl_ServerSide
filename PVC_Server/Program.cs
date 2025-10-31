@@ -6,9 +6,11 @@ using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.Resource;
 using Microsoft.IdentityModel.Tokens;
+using PVC_Server.Application.Interfaces;
 using PVC_Server.Application.Options;
 using PVC_Server.Core.Entities.Identity;
 using PVC_Server.Infrastructure.Data;
+using PVC_Server.Infrastructure.Services;
 using System.Text;
 
 namespace PVC_Server {
@@ -28,6 +30,8 @@ namespace PVC_Server {
 				Key = builder.Configuration["Jwt:Key"] ?? "Unknown"
 			};
 			builder.Services.AddSingleton(jwtOption);
+
+			builder.Services.AddScoped<IEmailService, EmailService>();
 
 			#region Bearer Authentication
 			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
