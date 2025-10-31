@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PVC_Server.Application\PVC_Server.Application.csproj" />
     <ProjectReference Include="..\PVC_Server.Core\PVC_Server.Core.csproj" />
     <ProjectReference Include="..\PVC_Server.Infrastructure\PVC_Server.Infrastructure.csproj" />
